@@ -17,6 +17,6 @@ export default function AppLayout(){
 
     return <Stack initialRouteName='index'>
       <Stack.Screen name='index'    options={{ title: 'Select your workspace' }}/>
-      <Stack.Screen name='(home)'   options={{ title: 'Store Options' }}/>
+      <Stack.Screen name='(home)'   options={{ headerShown: false }}/>
     </Stack>
 }

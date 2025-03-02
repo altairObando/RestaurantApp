@@ -1,16 +1,19 @@
 import React, { createContext, PropsWithChildren, useState } from 'react';
+import { Profile } from '../DTO/UserProfile';
 
 interface AppContextInterface {
     user?: string;
     restaurantId?: number;
-    isLogged: boolean
-    groups: string[]
+    isLogged: boolean;
+    groups: string[];
+    userProfile?: Profile
 }
 const defaultAppContext: AppContextInterface = {
     user: undefined,
     restaurantId: undefined,
     isLogged: false,
-    groups: []
+    groups: [],
+    userProfile: undefined
 };
 
 interface MyContextTypeInterface {
