@@ -46,7 +46,7 @@ const refreshToken = async () => {
     }
 
     try {
-        const request = await fetch(`${BASE_URL}/api/token/refresh/`, {
+        const request = await fetch(`${BASE_URL}token/refresh/`, {
             method: 'POST',
             body: JSON.stringify({refresh: refreshTokenValue}),
             headers: {
@@ -100,7 +100,7 @@ export const login = async (username: string, password: string) => {
 export const apiRequest=async( method: string, url: string, data: any, requireAuth: boolean = true ): Promise<any>=>{
     let config = await getRequestConfig( method, data )
     try {
-        const response = await fetch(BASE_URL+url, config);
+        const response = await fetch(API_URL+url, config);
         if( response.ok ) return await response.json();
         if( !response.ok && response.status === 401 && requireAuth){
             let accesToken = await refreshToken();

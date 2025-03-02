@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Image, StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 import { login as doLogin } from '../Scripts/api';
 import { Button, Text, TextInput, ActivityIndicator } from 'react-native-paper';
@@ -36,6 +36,7 @@ export const Login: React.FC<ILoginProps>=(props)=>{
     }
     return <View style={styles.container}>
     <View style={ styles.layout }>
+        <Image source={require('../assets/icon.png')} style={{ borderRadius: 25, alignSelf: 'center', width: 200, height: 200, resizeMode: 'contain' }} />
         <Text style={{ alignSelf: 'center'}}>New Login</Text>        
         <TextInput 
             autoCapitalize='none' 
