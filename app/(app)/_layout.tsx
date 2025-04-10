@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { apiRequest, getAccessToken,  } from '../../Scripts/api'
+import {  getAccessToken,  } from '../../Scripts/api'
 import { Login } from '../../components/Login';
 import { Stack } from 'expo-router';
 import { AppContext } from '../../Context/AppContext';
@@ -17,6 +17,6 @@ export default function AppLayout(){
 
     return <Stack initialRouteName='index'>
       <Stack.Screen name='index'    options={{ title: 'Select your workspace' }}/>
-      <Stack.Screen name='(home)'   options={{ headerShown: false }}/>
+      <Stack.Screen name='home'   options={{ headerShown: false }}/>
     </Stack>
 }

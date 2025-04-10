@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
-import { Button, Card, Divider, Text } from 'react-native-paper';
+import { Alert, StatusBar } from 'react-native';
+import { Button, Card, Text } from 'react-native-paper';
 import { apiRequest, setAccessToken } from '../../Scripts/api';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from 'expo-router';
 import { Restaurant } from '../../DTO/RestaurantDTO';
 import { AppContext } from '../../Context/AppContext';
 import { RestaurantList } from '../../components/Restaurant/RestaurantList';
@@ -34,14 +33,23 @@ export default function Page(){
                     last_name: ProfileResponse.contact.last_name,
                 } as Contact
             };
-            setAppData( prev => ({...prev, userProfile: Profile }))
+            setAppData( prev => ({...prev, userProfile: Profile }));
+        }).catch(error => {
+            if(error instanceof Error && error.message == 'Session Expired'){
+                Alert.alert('Session Expired', 'Please login again', [
+                    { text: 'OK', onPress: () => {
+                        setAppData( prev => ({...prev, isLogged: false}))
+                        router.push('/') // Push to login page to restart the ap
+                    } }
+                ])
+            }
         })
     },[])
     const fetchRestaurants =()=>{
         setLoading(true)
         apiRequest('GET','restaurants/', null)
         .then(response => {
-            const restaurants = (response || []).map((restaurant: any) => {
+            const restaurants = (response.results || []).map((restaurant: any) => {
                 return {
                     id: restaurant.id,
                     locations: restaurant.locations,
@@ -65,8 +73,8 @@ export default function Page(){
     }
 
     const onRestaurantSelect =(restaurantId: number)=>{
-        setAppData( prev => ({ ...prev, selectedRestaurant: restaurantId }));
-        router.navigate('(home)')        
+        setAppData( prev => ({ ...prev, restaurant: restaurant.find(item => item.id == restaurantId) }));
+        router.navigate('home')        
     }
 
     return <SafeAreaProvider>

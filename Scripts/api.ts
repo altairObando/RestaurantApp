@@ -1,9 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
-const BASE_URL = 'http://192.168.3.108/api/',
+const BASE_URL = 'https://genericrestaurantapi.onrender.com/api/',
       API_URL  = BASE_URL +'v1/';
-
-
-
 let accessToken : string|null = null;
 
 
@@ -98,7 +95,7 @@ export const login = async (username: string, password: string) => {
 }
 
 export const apiRequest=async( method: string, url: string, data: any, requireAuth: boolean = true ): Promise<any>=>{
-    let config = await getRequestConfig( method, data )
+    let config = await getRequestConfig( method, data );
     try {
         const response = await fetch(API_URL+url, config);
         if( response.ok ) return await response.json();

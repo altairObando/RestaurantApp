@@ -24,15 +24,15 @@ export const Login: React.FC<ILoginProps>=(props)=>{
                 Alert.alert(loginResponse.msg)
             }
         } catch (error) {
-            console.log(error)
+            Alert.alert(String(error))
         }finally{
             setIsLoading(false)
         }
-    } catch (error) {
-        console.log(error)
-    }finally{
-        setIsLoading(false)
-    }
+        } catch (error) {
+            Alert.alert(String(error))
+        }finally{
+            setIsLoading(false)
+        }
     }
     return <View style={styles.container}>
     <View style={ styles.layout }>
