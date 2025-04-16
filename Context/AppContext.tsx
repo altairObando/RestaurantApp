@@ -1,6 +1,7 @@
 import React, { createContext, PropsWithChildren, useState } from 'react';
 import { Profile } from '../DTO/UserProfile';
 import { Restaurant } from '../DTO/RestaurantDTO';
+import { InitialSetup } from '../DTO/InitialSetup';
 
 interface AppContextInterface {
     user?: string;
@@ -8,14 +9,8 @@ interface AppContextInterface {
     isLogged: boolean;
     groups: string[];
     userProfile?: Profile,
+    initialSetup?: InitialSetup;
 }
-const defaultAppContext: AppContextInterface = {
-    user: undefined,
-    restaurant: undefined,
-    isLogged: false,
-    groups: [],
-    userProfile: undefined
-};
 
 interface MyContextTypeInterface {
     appData: AppContextInterface;
@@ -23,13 +18,13 @@ interface MyContextTypeInterface {
 }
 
 export const AppContext = createContext<MyContextTypeInterface>({
-    appData: defaultAppContext,
+    appData: {} as AppContextInterface,
     setAppData: () => null
 })
 
 
 export const AppProvider: React.FC<PropsWithChildren>= ({children}) => {
-    const [ appData, setAppData ] = useState<AppContextInterface>(defaultAppContext);
+    const [ appData, setAppData ] = useState<AppContextInterface>({} as AppContextInterface);
     return <AppContext.Provider value={{ appData, setAppData }}>
         {children}
     </AppContext.Provider>

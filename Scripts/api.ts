@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { InitialSetup } from '../DTO/InitialSetup';
 const BASE_URL = 'https://genericrestaurantapi.onrender.com/api/',
       API_URL  = BASE_URL +'v1/';
 let accessToken : string|null = null;
@@ -106,8 +107,16 @@ export const apiRequest=async( method: string, url: string, data: any, requireAu
                 return apiRequest(method, url, data, true);
             }else throw new Error('Session Expired')
         }
-        throw new Error(response.statusText);
+        if( response.status === 404 ){
+            const errorData = await response.json();
+            throw new Error(errorData.message)
+        }
+        throw new Error(`Error: ${response.status}, ${response.statusText}`);
     } catch (error) {
         throw error
     }
+}
+export const fetchInitialSetup = async () => {
+    const response = await apiRequest('GET', 'config/initial_setup/', null, false);
+    return response as InitialSetup;
 }

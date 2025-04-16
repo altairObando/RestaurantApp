@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useLayoutEffect } from 'react';
 import { ActivityIndicator, Alert, StatusBar, useWindowDimensions } from 'react-native';
-import { fetchLocations } from '../../../Scripts/Locations/api';
+import { fetchLocations, getActiveOrder } from '../../../Scripts/Locations/api';
 import { AppContext } from '../../../Context/AppContext';
 import { Location } from '../../../DTO/RestaurantDTO';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -32,7 +32,14 @@ export default function IndexLayout(){
     },[ restaurant ]);
     const onSubLocationPress =(location: Location)=>{
         if(!location.sublocations || location.sublocations.length == 0){
-            // TODO: Add open orders for this location.
+            getActiveOrder(location.id)
+            //.then(order => )
+            .catch(error => {
+                if(error instanceof Error){
+                    Alert.alert('Not Found', `${ error.message } for location ${ location.location }`)
+                    return
+                }
+            })
             return;
         }
         setSubLocations(location.sublocations);

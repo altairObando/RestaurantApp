@@ -31,3 +31,7 @@ export async function fetchLocations(restaurantId: number){
     });
     return data;
 }
+
+export async function getActiveOrder( locationId: number){
+    return await apiRequest('GET',  `locations/${locationId}/active_order/`, null);
+}

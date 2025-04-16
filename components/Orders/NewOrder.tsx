@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-export default function ProfileLayout(){
+export const NewOrder: React.FunctionComponent=()=>{
     return <View>
-        <Text> TODO:// x vista</Text>
+        <Text> New Order </Text>
     </View>
 }

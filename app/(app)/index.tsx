@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, StatusBar } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
-import { apiRequest, setAccessToken } from '../../Scripts/api';
+import { apiRequest, fetchInitialSetup, setAccessToken } from '../../Scripts/api';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Restaurant } from '../../DTO/RestaurantDTO';
 import { AppContext } from '../../Context/AppContext';
@@ -13,6 +13,14 @@ export default function Page(){
     const { appData, setAppData } = useContext(AppContext);
     const [ restaurant, setRestaurants ] = React.useState<Restaurant[]>([]);
     const [ loading, setLoading ] = useState(false);
+    // Get initial config
+    useEffect(()=>{
+        fetchInitialSetup()
+        .then(response => {            
+            setAppData( prev => ({...prev, initialSetup: response }));
+            setRestaurants(response.restaurants || []);
+        }).catch(error => console.error(error))
+    },[])
     // Get user profile
     useEffect(()=>{
         apiRequest('GET','profile/', null)
@@ -64,10 +72,7 @@ export default function Page(){
             setRestaurants(restaurants);
         }).catch(error => console.error(error))
         .finally(()=> setLoading(false))
-    }
-    useEffect(fetchRestaurants,[]);
-
-    
+    }    
     const logout =()=>{
         setAccessToken(null).then(()=> setAppData( prev => ({ ...prev, isLogged: false})));
     }
